@@ -1,0 +1,197 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css"
+  rel="stylesheet"
+/>
+
+<nav class="navbar is-danger is-fixed-top">
+  <div class="row">
+    <div class="columns">
+      <div class="column is-four-fifths">
+        <div class="field" style="margin: 1rem">
+          <div class="control">
+            <input
+              (keypress)="keyPress($event)"
+              class="input is-link"
+              type="text"
+              placeholder="Search Here"
+              [(ngModel)]="searchTerm"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-one-fifth">
+        <div class="dropdown is-hoverable">
+          <div class="dropdown-trigger">
+            <button
+              class="button"
+              style="margin: 1rem"
+              aria-haspopup="true"
+              aria-controls="dropdown-menu3"
+            >
+              <span>{{ selectedCity }}</span>
+              <span class="icon is-small">
+                <i class="ri-arrow-down-s-line"></i>
+              </span>
+            </button>
+          </div>
+          <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+            <div class="dropdown-content">
+              <a class="dropdown-item" (click)="changeSelectedCity('Delhi')">
+                Delhi
+              </a>
+              <a class="dropdown-item" (click)="changeSelectedCity('Mumbai')">
+                Mumbai
+              </a>
+              <a class="dropdown-item" (click)="changeSelectedCity('Kolkata')">
+                Kolkata
+              </a>
+              <a class="dropdown-item" (click)="changeSelectedCity('Pune')">
+                Pune
+              </a>
+              <a
+                class="dropdown-item"
+                (click)="changeSelectedCity('Bangalore')"
+              >
+                Bangalore
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+<br />
+<br />
+<br />
+
+<div class="container">
+  <div class="row">
+    <div class="columns">
+      <div class="column is-one-fifth">
+        <h2 class="subtitle" style="margin-top: 1rem; color: indianred">
+          Bank Branches
+        </h2>
+      </div>
+
+      <div class="column is-four-fifths">
+        <div class="columns">
+          <div class="column is-one-third">
+            <progress
+              *ngIf="gotValue"
+              style="margin-top: 1rem"
+              class="progress is-danger"
+              max="100"
+            >
+              30%
+            </progress>
+            <div *ngIf="!gotValue" class="field" style="margin: 1rem">
+              <div class="control">
+                <input
+                  placeholder="search in results"
+                  class="input is-link"
+                  type="text"
+                  [(ngModel)]="filterTerm"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-one-third">
+            <div class="row">
+              <div class="columns">
+                <div class="column is-one-third">
+                  <p style="font-weight: bolder; margin-top: 20px">
+                    Page Size:
+                  </p>
+                </div>
+                <div class="column">
+                  <div class="field" style="margin: 1rem">
+                    <div class="control">
+                      <input
+                        (keypress)="keyPressPageSize($event)"
+                        placeholder=">=10"
+                        class="input is-link"
+                        type="number"
+                        [(ngModel)]="pagesize"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-one-third" style="margin-top: 1rem;">
+            <div class="row">
+              <div class="columns">
+                <div class="column">
+                  <button
+                    class="button"
+                    [disabled]="offset == 0"
+                    (click)="previousPage()"
+                  >
+                    <span class="icon is-small">
+                      <i class="ri-arrow-left-s-line"></i>
+                    </span>
+                    <span>Previous Page</span>
+                  </button>
+                </div>
+
+                <div class="column">
+                  <button class="button" (click)="nextPage()">
+                    <span>Next Page</span>
+                    <span class="icon is-small">
+                      <i class="ri-arrow-right-s-line"></i>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="table is-hoverable is-fullwidth is-bordered">
+    <thead>
+      <tr>
+        <th>IFSC Code</th>
+        <th>Bank Id</th>
+        <th>Branch</th>
+        <th *ngIf="!searchDone">Bank Name</th>
+        <th>Address</th>
+        <th>District</th>
+        <th>City</th>
+        <th>State Name</th>
+        <th *ngIf="!searchDone">Favourite</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bank of banks | filter: filterTerm">
+        <td>{{ bank.ifsc }}</td>
+        <td>{{ bank.bank_id }}</td>
+        <td>{{ bank.branch }}</td>
+        <td *ngIf="!searchDone">
+          <a (click)="showBankDetails(bank.id)">{{ bank.bank_name }}</a>
+        </td>
+        <td>{{ bank.address }}</td>
+        <td>{{ bank.district }}</td>
+        <td>{{ bank.city }}</td>
+        <td>{{ bank.state }}</td>
+        <td *ngIf="!searchDone">
+          <button
+            class="button is-link is-outlined"
+            (click)="changeFavourite(bank.id)"
+          >
+            {{ checkFav(bank.id) ? "Unmark" : "Mark" }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
