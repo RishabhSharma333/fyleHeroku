@@ -13,7 +13,7 @@
               (keypress)="keyPress($event)"
               class="input is-link"
               type="text"
-              placeholder="Search Here"
+              placeholder="SEARCH FOR THE BANKS"
               [(ngModel)]="searchTerm"
             />
           </div>
@@ -89,7 +89,7 @@
             <div *ngIf="!gotValue" class="field" style="margin: 1rem">
               <div class="control">
                 <input
-                  placeholder="search in results"
+                  placeholder="search in Table"
                   class="input is-link"
                   type="text"
                   [(ngModel)]="filterTerm"
@@ -129,7 +129,7 @@
               <div class="columns">
                 <div class="column">
                   <button
-                    class="button"
+                    class="button is-danger"
                     [disabled]="offset == 0"
                     (click)="previousPage()"
                   >
@@ -141,7 +141,7 @@
                 </div>
 
                 <div class="column">
-                  <button class="button" (click)="nextPage()">
+                  <button class="button is-danger" (click)="nextPage()">
                     <span>Next Page</span>
                     <span class="icon is-small">
                       <i class="ri-arrow-right-s-line"></i>
@@ -178,18 +178,24 @@
         <td>{{ bank.bank_id }}</td>
         <td>{{ bank.branch }}</td>
         <td *ngIf="!searchDone">
-          <a (click)="showBankDetails(bank.id)">{{ bank.bank_name }}</a>
+          <a style=" color:crimson"(click)="showBankDetails(bank.id)">{{ bank.bank_name }}</a>
         </td>
         <td>{{ bank.address }}</td>
         <td>{{ bank.district }}</td>
         <td>{{ bank.city }}</td>
         <td>{{ bank.state }}</td>
         <td *ngIf="!searchDone">
-          <button
-            class="button is-link is-outlined"
+          <button *ngIf="!checkFav(bank.id)"
+            class="button is-danger is-outlined"
             (click)="changeFavourite(bank.id)"
           >
-            {{ checkFav(bank.id) ? "Unmark" : "Mark" }}
+            General
+          </button>
+
+          <button *ngIf="checkFav(bank.id)"
+          class="button is-danger is-light"
+          (click)="changeFavourite(bank.id)" >
+          Favourite
           </button>
         </td>
       </tr>
