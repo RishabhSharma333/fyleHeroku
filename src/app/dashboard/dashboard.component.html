@@ -3,60 +3,73 @@
   rel="stylesheet"
 />
 
-<nav class="navbar is-danger is-fixed-top">
-  <div class="row">
-    <div class="columns">
-      <div class="column is-four-fifths">
-        <div class="field" style="margin: 1rem">
-          <div class="control">
-            <input
-              (keypress)="keyPress($event)"
-              class="input is-link"
-              type="text"
-              placeholder="SEARCH FOR THE BANKS"
-              [(ngModel)]="searchTerm"
-            />
+<nav class="navbar has-shadow is-fixed-top" style="height: 4rem">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item"> <p class="subtitle">Bank Branches</p> </a>
+    </div>
+    <div class="navbar-item"><p>Search Banks :</p></div>
+
+    <div class="navbar-item" style="width: 40rem">
+      <div class="field" style="margin: 1rem">
+        <div class="control">
+          <input
+            (keypress)="keyPress($event)"
+            class="input is-link"
+            type="text"
+            placeholder="Enter to Search Banks"
+            [(ngModel)]="searchTerm"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="navbar-item"><p>City :</p></div>
+
+    <div class="navbar-item">
+      <div class="dropdown is-hoverable">
+        <div class="dropdown-trigger">
+          <button
+            class="button"
+            style="margin: 1rem"
+            aria-haspopup="true"
+            aria-controls="dropdown-menu3"
+          >
+            <span>{{ selectedCity }}</span>
+            <span class="icon is-small">
+              <i class="ri-arrow-down-s-line"></i>
+            </span>
+          </button>
+        </div>
+        <div class="dropdown-menu" id="dropdown-menu3" role="menu">
+          <div class="dropdown-content">
+            <a class="dropdown-item" (click)="changeSelectedCity('Delhi')">
+              Delhi
+            </a>
+            <a class="dropdown-item" (click)="changeSelectedCity('Mumbai')">
+              Mumbai
+            </a>
+            <a class="dropdown-item" (click)="changeSelectedCity('Kolkata')">
+              Kolkata
+            </a>
+            <a class="dropdown-item" (click)="changeSelectedCity('Pune')">
+              Pune
+            </a>
+            <a class="dropdown-item" (click)="changeSelectedCity('Bangalore')">
+              Bangalore
+            </a>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="column is-one-fifth">
-        <div class="dropdown is-hoverable">
-          <div class="dropdown-trigger">
-            <button
-              class="button"
-              style="margin: 1rem"
-              aria-haspopup="true"
-              aria-controls="dropdown-menu3"
-            >
-              <span>{{ selectedCity }}</span>
-              <span class="icon is-small">
-                <i class="ri-arrow-down-s-line"></i>
-              </span>
-            </button>
-          </div>
-          <div class="dropdown-menu" id="dropdown-menu3" role="menu">
-            <div class="dropdown-content">
-              <a class="dropdown-item" (click)="changeSelectedCity('Delhi')">
-                Delhi
-              </a>
-              <a class="dropdown-item" (click)="changeSelectedCity('Mumbai')">
-                Mumbai
-              </a>
-              <a class="dropdown-item" (click)="changeSelectedCity('Kolkata')">
-                Kolkata
-              </a>
-              <a class="dropdown-item" (click)="changeSelectedCity('Pune')">
-                Pune
-              </a>
-              <a
-                class="dropdown-item"
-                (click)="changeSelectedCity('Bangalore')"
-              >
-                Bangalore
-              </a>
-            </div>
-          </div>
+    <div class="navbar-end">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link"> Account </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item"> Profile </a>
+
+          <hr class="navbar-divider" />
+          <a class="navbar-item"> Logout </a>
         </div>
       </div>
     </div>
@@ -66,48 +79,40 @@
 <br />
 <br />
 
-<div class="container">
-  <div class="row">
-    <div class="columns">
-      <div class="column is-one-fifth">
-        <h2 class="subtitle" style="margin-top: 1rem; color: indianred">
-          Bank Branches
-        </h2>
+<div class="row" >
+  <div class="columns">
+    <div class="column">
+      <progress
+        *ngIf="gotValue"
+        style="margin-top: 1rem; width: 25rem"
+        class="progress is-info"
+        max="100"
+      >
+        30%
+      </progress>
+      <div *ngIf="!gotValue" class="field" style="margin: 1rem; width: 25rem">
+        <div class="control">
+          <input
+            placeholder="Search in Results Table"
+            class="input is-link"
+            type="text"
+            [(ngModel)]="filterTerm"
+          />
+        </div>
       </div>
+    </div>
 
-      <div class="column is-four-fifths">
+    <div class="column">
+      <div class="row">
         <div class="columns">
-          <div class="column is-one-third">
-            <progress
-              *ngIf="gotValue"
-              style="margin-top: 1rem"
-              class="progress is-danger"
-              max="100"
-            >
-              30%
-            </progress>
-            <div *ngIf="!gotValue" class="field" style="margin: 1rem">
-              <div class="control">
-                <input
-                  placeholder="search in Table"
-                  class="input is-link"
-                  type="text"
-                  [(ngModel)]="filterTerm"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="column is-one-third">
+          <div class="column is-half">
             <div class="row">
               <div class="columns">
                 <div class="column is-one-third">
-                  <p style="font-weight: bolder; margin-top: 20px">
-                    Page Size:
-                  </p>
+                  <p style="margin-top: 2rem">Page Size :</p>
                 </div>
-                <div class="column">
-                  <div class="field" style="margin: 1rem">
+                <div class="column is-two-third">
+                  <div class="field" style="margin: 1rem; width: 6rem">
                     <div class="control">
                       <input
                         (keypress)="keyPressPageSize($event)"
@@ -123,13 +128,12 @@
             </div>
           </div>
 
-          <div class="column is-one-third" 
-          style="margin-top: 1rem;">
+          <div class="column is-half">
             <div class="row">
-              <div class="columns">
+              <div class="columns" style="margin: 2px">
                 <div class="column">
                   <button
-                    class="button is-danger"
+                    class="button is-info"
                     [disabled]="offset == 0"
                     (click)="previousPage()"
                   >
@@ -141,7 +145,7 @@
                 </div>
 
                 <div class="column">
-                  <button class="button is-danger" (click)="nextPage()">
+                  <button class="button is-info" (click)="nextPage()">
                     <span>Next Page</span>
                     <span class="icon is-small">
                       <i class="ri-arrow-right-s-line"></i>
@@ -178,24 +182,27 @@
         <td>{{ bank.bank_id }}</td>
         <td>{{ bank.branch }}</td>
         <td *ngIf="!searchDone">
-          <a style=" color:crimson"(click)="showBankDetails(bank.id)">{{ bank.bank_name }}</a>
+          <a (click)="showBankDetails(bank.id)">{{ bank.bank_name }}</a>
         </td>
         <td>{{ bank.address }}</td>
         <td>{{ bank.district }}</td>
         <td>{{ bank.city }}</td>
         <td>{{ bank.state }}</td>
         <td *ngIf="!searchDone">
-          <button *ngIf="!checkFav(bank.id)"
-            class="button is-danger is-outlined"
+          <button
+            *ngIf="!checkFav(bank.id)"
+            class="button is-info is-outlined"
             (click)="changeFavourite(bank.id)"
           >
             General
           </button>
 
-          <button *ngIf="checkFav(bank.id)"
-          class="button is-danger is-light"
-          (click)="changeFavourite(bank.id)" >
-          Favourite
+          <button
+            *ngIf="checkFav(bank.id)"
+            class="button is-info is-light"
+            (click)="changeFavourite(bank.id)"
+          >
+            Favourite
           </button>
         </td>
       </tr>
